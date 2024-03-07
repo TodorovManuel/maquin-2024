@@ -1,7 +1,3 @@
-let a : number;
-a = 10;
-console.log("Bardelli va a la selección");
-
 class Chef {
     nombreChef : String;
     experiencia : Boolean;
@@ -13,6 +9,15 @@ class Chef {
         this.fechaNacimiento = fechanacimiento;
     }
 
+    public get getEdad(): number{
+        let hoy = new Date();
+        let edad = hoy.getFullYear() - this.fechaNacimiento.getFullYear();
+        let mes = hoy.getMonth() - this.fechaNacimiento.getMonth();
+        if(mes < 0 || (mes === 0 && hoy.getDate() < this.fechaNacimiento.getDate())){
+            edad--;
+        }
+        return edad;
+    }
     public get getNombreChef(){
         return this.nombreChef;
     }
@@ -37,6 +42,8 @@ class Chef {
         this.experiencia = experiencia;
     }
 }
+
+
 
 class Plato {
     nombrePlato: String;
@@ -65,12 +72,14 @@ class Plato {
 
 }
 
+
+
 class Resto {
     nombreResto: String;
-    listadoPlatos: Array<Plato>;
-    listadoChefs: Array<Chef>;
+    listadoPlatos: Set<Plato>;
+    listadoChefs: Set<Chef>;
 
-    constructor(nombreResto:String, listadoPlatos:Array<Plato>, listadoChefs:Array<Chef>) {
+    constructor(nombreResto:String, listadoPlatos:Set<Plato>, listadoChefs:Set<Chef>) {
         this.nombreResto = nombreResto;
         this.listadoPlatos = listadoPlatos;
         this.listadoChefs = listadoChefs;
@@ -86,20 +95,39 @@ class Resto {
     public get getListadoPlatos(){
         return this.listadoPlatos;
     }
-    public set setListadoPlatos(listadoPlatos: Array<Plato>){
+    public set setListadoPlatos(listadoPlatos: Set<Plato>){
         this.listadoPlatos = this.listadoPlatos;
     }
 
     public get getListadoChefs(){
         return this.listadoChefs;
     }
-    public set setListadoChefs(listadoChefs: Array<Chef>){
+    public set setListadoChefs(listadoChefs: Set<Chef>){
         this.listadoChefs = this.listadoChefs;
     }
 
-     private contratarChef(chef : Chef) : void {
-        if(chef.getExperiencia && chef.getFechaNacimiento){
+    public contratarChef(chef : Chef) : void {
+        if(chef.getExperiencia){
+            if(chef.getEdad >= 18){
+                this.listadoChefs.add(chef);
+            }else{
+                throw "ChefMenorDeEdad"
+            }
+        }else{
+            throw "ChefSinExperiencia"
+        }
+        
+    }
 
+    public agregarPlato(plato : Plato) : void{
+        if(!this.listadoPlatos.has(plato)){
+            if(this.listadoChefs.has(plato.getChefACargo)){
+                this.listadoPlatos.add(plato);
+            }else{
+                throw "ChefNoContratado"
+            }
+        } else {
+            throw "PlatoYaExiste";
         }
     }
 }
