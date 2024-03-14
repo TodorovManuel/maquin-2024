@@ -1,4 +1,5 @@
 import { Arquero } from "./Arquero";
+import { Contrato } from "./Contrato";
 import { JugadorDeCampo } from "./JugadorDeCampo";
 import { Persona } from "./Persona"; 
 import { Posicion } from "./Posicion"; 
@@ -6,18 +7,24 @@ import { Provincias } from "./Provincias";
 
 
 
-export abstract class Jugador extends Persona {
+export abstract class Jugador extends Persona implements Contrato {
     protected posicion : Posicion;
     protected provincia : Provincias;
+    protected amarillas : number;
+    protected rojas : number;
+    protected suspendido : Boolean;
     protected numeroCamiseta : number;
     protected historialEquipos : Map<number, string>;
 
-    constructor(nombre: string, apellido: string, nacimiento: Date, posicion: Posicion, provincia: Provincias, historialEquipos: Map<number, string>, numeroCamiseta: number) {
+    constructor(nombre: string, apellido: string, nacimiento: Date, posicion: Posicion, provincia: Provincias, historialEquipos: Map<number, string>, numeroCamiseta: number, amarillas:number, rojas:number, suspendido:Boolean) {
         super(nombre, apellido, nacimiento);
         this.posicion = posicion;
         this.provincia = provincia;
         this.historialEquipos = historialEquipos;
         this.numeroCamiseta = numeroCamiseta;
+        this.amarillas = amarillas;
+        this.rojas = rojas;
+        this.suspendido = suspendido;
     }
 
     get getPosicion(): Posicion {
@@ -52,6 +59,29 @@ export abstract class Jugador extends Persona {
         this.numeroCamiseta = numeroCamiseta;
     }
 
+    get getAmarillas(): number {
+        return this.amarillas;
+    }
+
+    set setAmarillas(amarillas: number) {
+        this.amarillas = amarillas;
+    }
+
+    get getRojas(): number {
+        return this.rojas;
+    }
+
+    set setRojas(rojas: number) {
+        this.rojas = rojas;
+    }
+
+    get getSuspendido(): Boolean {
+        return this.suspendido;
+    }
+
+    set setSuspendido(suspendido: Boolean) {
+        this.suspendido = suspendido;
+    }
     containsValue(map: Map<number, string>, value: string): boolean {
         for (let val of map.values()) {
             if (val === value) {

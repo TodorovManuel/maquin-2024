@@ -1,5 +1,6 @@
 import { Tiro } from "./Tiro";
 import { TipoTiro } from "./TipoTiro";
+import { Jugador } from "./Jugador"
 
 export class Partido {
     private nombreEquipo1: string;
@@ -55,6 +56,21 @@ export class Partido {
                     tiro.getPateador.agregarEstadistica(-1);
                     break;
             }
+        }
+    }
+
+
+    sacarRoja(jugador:Jugador) : void {
+        jugador.setRojas = 1;
+        // Suspende
+        jugador.setSuspendido = true;
+    }
+    sacarAmarilla(jugador:Jugador): void {
+        if(jugador.getAmarillas > 0) {
+            // Suspende
+            jugador.setSuspendido=true;
+        } else {
+            jugador.setAmarillas=1;
         }
     }
 }
