@@ -1,0 +1,3 @@
+export enum Posicion{
+    ARQUERO, DEFENSA, MEDIOCAMPISTA, DELANTERO
+}
